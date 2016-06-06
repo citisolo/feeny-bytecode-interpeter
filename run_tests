@@ -1,0 +1,29 @@
+# Compile
+gcc -O3 src/cfeeny.c src/utils.c src/bytecode.c src/$1 -o cfeeny -Wno-int-to-void-pointer-cast
+
+# Clean output folder
+rm output/*.out
+rm output/*.bc
+
+# Run output
+function test {
+   ./compiler -i tests/$1.feeny -o output/$1.bc
+   ./cfeeny output/$1.bc > output/$1.out
+}
+test hello
+test hello2
+test hello3
+test hello4
+test hello5
+test hello6
+test hello7
+test hello8
+test hello9
+test cplx
+test bsearch
+test fibonacci
+test inheritance
+test lists
+test vector
+test sudoku
+test sudoku2
