@@ -1,0 +1,5 @@
+defn main () :
+    var num = 10
+    printf("num = ~", num)
+
+main()

@@ -1,0 +1,5 @@
+defn main () :
+    var 5 = 10;
+    print
+
+main()
