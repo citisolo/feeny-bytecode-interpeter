@@ -1,0 +1,22 @@
+Interpreting Bytecode Program:
+Constants :
+   #0: Int(10)
+   #1: String("num = ~")
+   #2: String("main")
+   #3: Method(#2, nargs:0, nlocals:1) :
+         lit #0
+         set local 0
+         drop
+         get local 0
+         printf #1 1
+         return
+   #4: Null
+   #5: String("entry36")
+   #6: Method(#5, nargs:0, nlocals:0) :
+         call #2 0
+         drop
+         lit #4
+         return
+Globals :
+   #3
+Entry : #6

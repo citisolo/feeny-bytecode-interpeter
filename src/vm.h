@@ -8,6 +8,7 @@ typedef enum {
     STRING,
     SLOT,
 	METHOD,
+	ARRAY,
 	CLASS,
 	SYMBOL,
 	OPERAND
@@ -41,6 +42,7 @@ typedef struct {
 typedef struct {
 	int type;
 	StringObj* index;
+	Value_t* val;
 }SlotObj;
 
 typedef struct {
@@ -56,6 +58,13 @@ typedef struct {
     Vector* slots;
 }ClassObj;
 
+
+typedef struct  {
+	int type;
+	int len;
+	Value_t** elems;
+	
+}ArrayObj;
 
 struct Symbol{
 	int type;
@@ -77,9 +86,13 @@ Symbol* lookup_symbol(Symtab* symtab, char* id);
 
 
 struct Record {
-	SlotObj** args;
-	SlotObj** locals;
+	Value_t** args;
+	Value_t** locals;
 	Record* parent;
+	struct {
+		Vector* code;
+	    int index;
+	}ret;
 };
 
 typedef struct {
@@ -107,13 +120,19 @@ void os_push (OperandStack* stack, Value_t* slot);
 Value_t* os_pop (OperandStack* stack);
 Value_t* os_peek(OperandStack* stack, int i);
 
+ByteIns* pc;
+Record* fp;
+
 typedef struct {
-	ByteIns* ins;
-}ProgramCounter;
+	Vector* code;
+	int index;
+} PC;
+
+PC counter;
 
 
 /* Instructions */
-void LIT(int i);
+/*void LIT(int i);
 void ARRAY();
 void PLIT(char* format, int n);
 void SETLOCAL(int i);
@@ -130,7 +149,7 @@ void LABEL(int i);
 void BRANCH(int i);
 void GOTO(int i);
 void RETURN();
-void CALL(int i, int n);
+void CALL(int i, int n);*/
 
 
 void* allocate_obj(Type type);
