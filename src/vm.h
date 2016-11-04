@@ -11,7 +11,8 @@ typedef enum {
 	ARRAY,
 	CLASS,
 	SYMBOL,
-	OPERAND
+	OPERAND,
+    RECORD
 }Type;
 
 typedef struct Symbol Symbol;
@@ -50,11 +51,14 @@ typedef struct {
 	StringObj* index;
 	int nargs;
 	int nlocals;
+	int calls;
 	Vector* body;
 }MethodObj;
 
 typedef struct {
 	int type;
+	Value_t* parent;
+	int id;
     Vector* slots;
 }ClassObj;
 
@@ -86,9 +90,13 @@ Symbol* lookup_symbol(Symtab* symtab, char* id);
 
 
 struct Record {
+        int type;
+        int nargs;
+        int nlocals;
 	Value_t** args;
 	Value_t** locals;
 	Record* parent;
+	char* name;
 	struct {
 		Vector* code;
 	    int index;
@@ -130,7 +138,17 @@ typedef struct {
 
 PC counter;
 
-
+/*Integer Objects*/
+IntObj* add (IntObj* x, IntObj* y);
+IntObj* sub (IntObj* x, IntObj* y);
+IntObj* mul (IntObj* x, IntObj* y);
+IntObj* divd (IntObj* x, IntObj* y);
+IntObj* mod (IntObj* x, IntObj* y);
+Value_t* eq (IntObj* x, IntObj* y);
+Value_t* lt (IntObj* x, IntObj* y);
+Value_t* le (IntObj* x, IntObj* y);
+Value_t* gt (IntObj* x, IntObj* y);
+Value_t* ge (IntObj* x, IntObj* y);
 /* Instructions */
 /*void LIT(int i);
 void ARRAY();
