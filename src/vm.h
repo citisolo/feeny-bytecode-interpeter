@@ -3,124 +3,125 @@
 #include "bytecode.h"
 
 typedef enum {
-	NULL_TYPE, 
-	INT_TYPE, 
+    NULL_TYPE,
+    INT_TYPE,
     STRING,
     SLOT,
-	METHOD,
-	ARRAY,
-	CLASS,
-	SYMBOL,
-	OPERAND,
+    METHOD,
+    ARRAY,
+    CLASS,
+    SYMBOL,
+    OPERAND,
     RECORD
-}Type;
+} Type;
 
 typedef struct Symbol Symbol;
 typedef struct Record Record;
 typedef struct Operand Operand;
 
 typedef struct {
-	int type;
-}Value_t;
+    int type;
+} Value_t;
 
 /* Objects */
 typedef struct {
-	int type;
-}NullObj;
+    int type;
+} NullObj;
 
 
 
 typedef struct {
-	int type;
-	int val;
-}IntObj;
+    int type;
+    int val;
+} IntObj;
 
 typedef struct {
-	int type;
-	char* val;
-}StringObj;
+    int type;
+    char* val;
+} StringObj;
 
 typedef struct {
-	int type;
-	StringObj* index;
-	Value_t* val;
-}SlotObj;
+    int type;
+    StringObj* index;
+    Value_t* val;
+} SlotObj;
 
 typedef struct {
-	int type;
-	StringObj* index;
-	int nargs;
-	int nlocals;
-	int calls;
-	Vector* body;
-}MethodObj;
+    int type;
+    StringObj* index;
+    int nargs;
+    int nlocals;
+    int calls;
+    Vector* body;
+} MethodObj;
 
 typedef struct {
-	int type;
-	Value_t* parent;
-	int id;
+    int type;
+    Value_t* parent;
+    int id;
     Vector* slots;
-}ClassObj;
+} ClassObj;
 
 
 typedef struct  {
-	int type;
-	int len;
-	Value_t** elems;
-	
-}ArrayObj;
+    int type;
+    int len;
+    Value_t** elems;
 
-struct Symbol{
-	int type;
-	char* id;
-	Value_t* object;
-	Symbol* next;
+} ArrayObj;
+
+struct Symbol {
+    int type;
+    char* id;
+    Value_t* object;
+    Symbol* next;
 };
 
 typedef struct {
-	Symbol* head;
-}Symtab;
+    Symbol* head;
+} Symtab;
 
+Vector* const_pool;
 Symtab* constant_pool;
 Symtab* global_table;
 
-void init_constpool();
+
 void add_symbol(Symtab* symtab, char* id, Value_t* val );
 Symbol* lookup_symbol(Symtab* symtab, char* id);
 
 
 struct Record {
-        int type;
-        int nargs;
-        int nlocals;
-	Value_t** args;
-	Value_t** locals;
-	Record* parent;
-	char* name;
-	struct {
-		Vector* code;
-	    int index;
-	}ret;
+    int type;
+    int nargs;
+    int nlocals;
+    Value_t** args;
+    Value_t** locals;
+    Record* parent;
+    char* name;
+    struct {
+        Vector* code;
+        int index;
+    } ret;
 };
 
 typedef struct {
-	Record* top;
-}RuntimeStack;
+    Record* top;
+} RuntimeStack;
 
 RuntimeStack* runstack;
 
 void rs_push (RuntimeStack* stack, Record* slot);
 Record* rs_pop (RuntimeStack* stack);
-Record* new_frame( Record* parent); 
+Record* new_frame( Record* parent);
 
-struct Operand{
-	Value_t* val;
-	struct Operand* next;
+struct Operand {
+    Value_t* val;
+    struct Operand* next;
 };
 
 typedef struct {
-	Operand* top;
-}OperandStack;
+    Operand* top;
+} OperandStack;
 
 OperandStack* opstack;
 
@@ -132,8 +133,8 @@ ByteIns* pc;
 Record* fp;
 
 typedef struct {
-	Vector* code;
-	int index;
+    Vector* code;
+    int index;
 } PC;
 
 PC counter;

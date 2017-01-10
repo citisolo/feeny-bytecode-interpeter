@@ -4,4 +4,4 @@ echo "                                                                       "
 echo "                  Building ...                                         "
 echo "                                                                       "
 echo "***********************************************************************"
-clang src/cfeeny.c src/utils.c src/bytecode.c src/vm.c -g --std=c11  -o cfeeny 
+gcc src/cfeeny.c src/utils.c src/bytecode.c src/vm.c -g --std=c11  -o cfeeny 
